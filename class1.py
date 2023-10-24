@@ -10,5 +10,14 @@ class Person:
 
 # 인스턴스 생선
 p1 = Person()
+p2 = person()
+p1.name = "전우치"
 # 메서드 호출
 p1.print()
+p2.print()
+
+# 런타임시에 변수 추가
+Person.title = "new title"
+print(p1.title)
+print(p2.title)
+print(Person.title)
