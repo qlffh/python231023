@@ -18,4 +18,16 @@ soup = BeautifulSoup(page, "html.parser")
 #print(soup.find("p"))
 
 #<p class = "outer-text">형태만 검색
-print(soup.find_all("p", class_="outer-text"))
+#print(soup.find_all("p", class_="outer-text"))
+
+#attrs를 사용
+#print(soup.find_all("p", attrs = {"class":"outer-text"}))
+
+#특정 태그만 지정할 경우 id속성
+#rint(soup.find_all(id = "first"))
+
+#태그 내부의 컨텐츠를 가져오기 : .text
+for tag in soup.find_all("p"):
+    title = tag.text.strip()
+    title = title.replace("\n","")
+    print(title)
