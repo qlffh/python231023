@@ -23,3 +23,5 @@ for post in posts:
     print("{0},{1},{2}".format(title,price,addr))
     # f를 붙이고 변수명 넘기기
     f.write(f"{title},{price},{addr}\n")
+
+f.close()

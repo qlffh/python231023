@@ -1,7 +1,11 @@
 # DemoForm2.py(로직 코딩) + DemoForm2.ui(화면을 XML문서 저장)
 import sys 
 from PyQt5.QtWidgets import *
-from PyQt5 import uic 
+from PyQt5 import uic
+# 웹서버에 요청
+import requests
+# 크롤링
+from bs4 import BeautifulSoup
 
 
 #디자인 파일 로딩
@@ -12,11 +16,31 @@ class DemoForm(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
     # 슬롯 메서드
-    def FirstClick(self):
-        self.label.setText("첫번째 버튼")
-    def SecondClick(self):
+    def firstClick(self):
+        url = "https://www.daangn.com/fleamarket/"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # <div class 속성 딕셔너리>
+        # 파일에 저장
+        f = open("c:\\work\\dangn.txt","wt", encoding = "utf-8")
+        posts = soup.find_all("div", attrs = {"class":"card-desc"})
+        for post in posts:
+            title = post.find("h2", attrs = {"class":"card-title"})
+            price = post.find("div", attrs = {"class":"card-price"})
+            addr = post.find("div", attrs = {"class":"card-region-name"})
+            # 메서드체인(함수체인)
+            title = title.text.strip().replace("\n","")
+            price = price.text.strip().replace("\n","")
+            addr = addr.text.strip().replace("\n","")
+            print("{0},{1},{2}".format(title,price,addr))
+            # f를 붙이고 변수명 넘기기
+            f.write(f"{title},{price},{addr}\n")
+        f.close()
+        self.label.setText("당근 크롤링 완료~")
+    def secondClick(self):
         self.label.setText("두번째 버튼~~")
-    def ThirdClick(self):
+    def thirdClick(self):
         self.label.setText("세번째 버튼 클릭~~")
 
 #직접 실행했는지 여부(진입점 체크)
